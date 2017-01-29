@@ -75,7 +75,7 @@ MalzaharMenu:SubMenu("AutoIgnite", "AutoIgnite")
 MalzaharMenu.AutoIgnite:Boolean("Ignite", "Ignite if killable", true)
 
 MalzaharMenu:SubMenu("Drawings", "Drawings")
-MalzaharMenu.Drawings:Boolean("DQ", "Draw Q Range", true)
+MalzaharMenu.Drawings:Boolean("DE", "Draw E Range", true)
 
 MalzaharMenu:SubMenu("SkinChanger", "SkinChanger")
 MalzaharMenu.SkinChanger:Boolean("Skin", "UseSkinChanger", true)
@@ -102,14 +102,14 @@ OnTick(function (myHero)
         
         --Harass
           if Mix:Mode() == "Harass" then
-            if MalzaharMenu.Harass.Q:Value() and Ready(_Q) and ValidTarget(target, 700) then
+            if MalzaharMenu.Harass.Q:Value() and Ready(_Q) and ValidTarget(target, 900) then
 				if target ~= nil then 
                                       CastTargetSpell(target, _Q)
                                 end
             end
 
-            if MalzaharMenu.Harass.W:Value() and Ready(_W) and ValidTarget(target, 700) then
-				CastSpell(_W)
+            if MalzaharMenu.Harass.W:Value() and Ready(_W) and ValidTarget(target, 600) then
+				CastTargetSpell(target, _W)
             end     
           end
 
@@ -131,11 +131,11 @@ OnTick(function (myHero)
 			 CastTargetSpell(target, Cutlass)
             end
 
-            if MalzaharMenu.Combo.E:Value() and Ready(_E) and ValidTarget(target, 700) then
-			 CastSpell(_E)
+            if MalzaharMenu.Combo.E:Value() and Ready(_E) and ValidTarget(target, 650) then
+			 CastTargetSpell(target, _E)
 	    end
 
-            if MalzaharMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 700) then
+            if MalzaharMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 900) then
 		     if target ~= nil then 
                          CastTargetSpell(target, _Q)
                      end
@@ -153,8 +153,8 @@ OnTick(function (myHero)
 			CastSpell(RHydra)
             end
 
-	    if MalzaharMenu.Combo.W:Value() and Ready(_W) and ValidTarget(target, 700) then
-			CastSpell(_W)
+	    if MalzaharMenu.Combo.W:Value() and Ready(_W) and ValidTarget(target, 600) then
+			CastTargetSpell(target, _W)
 	    end
 	    
 	    
@@ -194,24 +194,24 @@ OnTick(function (myHero)
 		         end
                 end 
 
-                if IsReady(_E) and ValidTarget(enemy, 187) and MalzaharMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
-		                      CastSpell(_E)
+                if IsReady(_E) and ValidTarget(enemy, 650) and MalzaharMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
+		                      CastTargetSpell(target, _E)
   
                 end
       end
 
       if Mix:Mode() == "LaneClear" then
       	  for _,closeminion in pairs(minionManager.objects) do
-	        if MalzaharMenu.LaneClear.Q:Value() and Ready(_Q) and ValidTarget(closeminion, 700) then
+	        if MalzaharMenu.LaneClear.Q:Value() and Ready(_Q) and ValidTarget(closeminion, 900) then
 	        	CastTargetSpell(closeminion, _Q)
                 end
 
-                if MalzaharMenu.LaneClear.W:Value() and Ready(_W) and ValidTarget(closeminion, 700) then
-	        	CastSpell(_W)
+                if MalzaharMenu.LaneClear.W:Value() and Ready(_W) and ValidTarget(closeminion, 600) then
+	        	CastTargetSpell(target, _W)
 	        end
 
-                if MalzaharMenu.LaneClear.E:Value() and Ready(_E) and ValidTarget(closeminion, 187) then
-	        	CastSpell(_E)
+                if MalzaharMenu.LaneClear.E:Value() and Ready(_E) and ValidTarget(closeminion, 650) then
+	        	CastTargetSpell(target, _E)
 	        end
 
                 if MalzaharMenu.LaneClear.Tiamat:Value() and ValidTarget(closeminion, 350) then
@@ -225,18 +225,18 @@ OnTick(function (myHero)
       end
         --AutoMode
         if MalzaharMenu.AutoMode.Q:Value() then        
-          if Ready(_Q) and ValidTarget(target, 700) then
+          if Ready(_Q) and ValidTarget(target, 900) then
 		      CastTargetSpell(target, _Q)
           end
         end 
         if MalzaharMenu.AutoMode.W:Value() then        
-          if Ready(_W) and ValidTarget(target, 700) then
-	  	      CastSpell(_W)
+          if Ready(_W) and ValidTarget(target, 600) then
+	  	      CastTargetSpell(target, _W)
           end
         end
         if MalzaharMenu.AutoMode.E:Value() then        
-	  if Ready(_E) and ValidTarget(target, 125) then
-		      CastSpell(_E)
+	  if Ready(_E) and ValidTarget(target, 650) then
+		      CastTargetSpell(target, _E)
 	  end
         end
         if MalzaharMenu.AutoMode.R:Value() then        
@@ -257,8 +257,8 @@ end)
 
 OnDraw(function (myHero)
         
-         if JaxMenu.Drawings.DQ:Value() then
-		DrawCircle(GetOrigin(myHero), 700, 0, 200, GoS.Red)
+         if JaxMenu.Drawings.DE:Value() then
+		DrawCircle(GetOrigin(myHero), 650, 0, 200, GoS.Black)
 	end
 
 end)
