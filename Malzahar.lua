@@ -32,7 +32,7 @@ local SetDCP, SkinChanger = 0
 
 local MalzaharMenu = Menu("Malzahar", "Malzahar")
 
-JaxMenu:SubMenu("Combo", "Combo")
+MalzaharMenu:SubMenu("Combo", "Combo")
 
 MalzaharMenu.Combo:Boolean("Q", "Use Q in combo", true)
 MalzaharMenu.Combo:Boolean("W", "Use W in combo", true)
