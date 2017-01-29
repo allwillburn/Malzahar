@@ -104,7 +104,7 @@ OnTick(function (myHero)
           if Mix:Mode() == "Harass" then
             if MalzaharMenu.Harass.Q:Value() and Ready(_Q) and ValidTarget(target, 900) then
 				if target ~= nil then 
-                                      CastTargetSpell(target, _Q)
+                                     CastSkillShot(_Q, target)
                                 end
             end
 
@@ -137,7 +137,7 @@ OnTick(function (myHero)
 
             if MalzaharMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 900) then
 		     if target ~= nil then 
-                         CastTargetSpell(target, _Q)
+                         CastSkillShot(_Q, target)
                      end
             end
 
@@ -257,7 +257,7 @@ end)
 
 OnDraw(function (myHero)
         
-         if JaxMenu.Drawings.DE:Value() then
+         if MalzaharMenu.Drawings.DE:Value() then
 		DrawCircle(GetOrigin(myHero), 650, 0, 200, GoS.Black)
 	end
 
