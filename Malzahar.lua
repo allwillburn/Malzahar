@@ -24,7 +24,7 @@ function AutoUpdate(data)
     end
 end
 
-GetWebResultAsync("https://raw.githubusercontent.com/allwillburn/Jax/master/Jax.version", AutoUpdate)
+GetWebResultAsync("https://raw.githubusercontent.com/allwillburn/Malzahar/master/Malzahar.version", AutoUpdate)
 
 
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
