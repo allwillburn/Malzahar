@@ -159,7 +159,7 @@ OnTick(function (myHero)
 	    
 	    
             if MalzaharMenu.Combo.R:Value() and Ready(_R) and ValidTarget(target, 700) and (EnemiesAround(myHeroPos(), 700) >= MalzaharMenu.Combo.RX:Value()) then
-			CastSpell(_R)
+			CastTargetSpell(target, _R)
             end
 
           end
