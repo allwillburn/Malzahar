@@ -255,6 +255,37 @@ OnTick(function (myHero)
 	end
 end)
 
+
+OnUpdateBuff (function(unit, buff)
+	if not unit or not buff then
+		return
+	end
+	if buff.Name == "AlZaharNetherGrasp" then
+		print("R Casting spells and movements blocked!")
+		IOW.movementEnabled = false
+		IOW.attacksEnabled = false
+		BlockF7OrbWalk(true)
+		BlockF7Dodge(true)
+      	rChan = true
+    end
+end)
+
+OnRemoveBuff (function(unit, buff)
+	if not unit or not buff then
+		return
+	end
+	if buff.Name == "AlZaharNetherGrasp" then
+		print("R Casting spells and movements unblocked!")
+		IOW.movementEnabled = true
+		IOW.attacksEnabled = true
+		BlockF7OrbWalk(false)
+		BlockF7Dodge(false)
+      	rChan = false
+    end
+end)
+
+
+
 OnDraw(function (myHero)
         
          if MalzaharMenu.Drawings.DE:Value() then
