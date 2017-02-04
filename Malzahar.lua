@@ -260,10 +260,6 @@ OnTick(function (myHero)
 	end
 end)
 
-	
-
-	
-	
 OnDraw(function (myHero)
         
          if MalzaharMenu.Drawings.DE:Value() then
