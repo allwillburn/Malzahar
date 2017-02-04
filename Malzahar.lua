@@ -70,7 +70,6 @@ MalzaharMenu.Harass:Boolean("W", "Use W", true)
 MalzaharMenu:SubMenu("KillSteal", "KillSteal")
 MalzaharMenu.KillSteal:Boolean("Q", "KS w Q", true)
 MalzaharMenu.KillSteal:Boolean("E", "KS w E", true)
-MalzaharMenu.KillSteal:Boolean("R", "KS w R", true)
 
 MalzaharMenu:SubMenu("AutoIgnite", "AutoIgnite")
 MalzaharMenu.AutoIgnite:Boolean("Ignite", "Ignite if killable", true)
@@ -197,10 +196,6 @@ OnTick(function (myHero)
 
                 if IsReady(_E) and ValidTarget(enemy, 650) and MalzaharMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
 		                      CastTargetSpell(target, _E)
-				
-		if IsReady(_R) and ValidTarget(enemy, 700) and MalzaharMenu.KillSteal.R:Value() and GetHP(enemy) < getdmg("R",enemy) then
-		                      CastTargetSpell(target, _R)
-  
   
                 end
       end
@@ -246,7 +241,7 @@ OnTick(function (myHero)
         end
         if MalzaharMenu.AutoMode.R:Value() then        
 	  if Ready(_R) and ValidTarget(target, 700) then
-		      CastTargetSpell(target, _R)
+		      CastSpell(_R)
 	  end
         end
                 
