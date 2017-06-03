@@ -1,4 +1,4 @@
-local ver = "0.02"
+local ver = "0.03"
 
 
 if FileExist(COMMON_PATH.."MixLib.lua") then
@@ -197,7 +197,7 @@ OnTick(function (myHero)
         for _, enemy in pairs(GetEnemyHeroes()) do
                 
                 
-               if IsReady(_Q) and ValidTarget(enemy, 900) and GalioMenu.KillSteal.Q:Value() and GetHP(enemy) < getdmg("Q",enemy) then
+               if IsReady(_Q) and ValidTarget(enemy, 900) and MalzaharMenu.KillSteal.Q:Value() and GetHP(enemy) < getdmg("Q",enemy) then
 		         local QPred = GetPrediction(target, MalzaharQ)
                        if QPred.hitChance > (MalzaharMenu.KillSteal.Qpred:Value() * 0.1) then
                                  CastSkillShot(_Q,QPred.castPos)
