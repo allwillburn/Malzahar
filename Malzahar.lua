@@ -35,6 +35,7 @@ local MalzaharMenu = Menu("Malzahar", "Malzahar")
 MalzaharMenu:SubMenu("Combo", "Combo")
 
 MalzaharMenu.Combo:Boolean("Q", "Use Q in combo", true)
+MalzaharMenu.Combo:Slider("Qpred", "Q Hit Chance", 3,0,10,1)
 MalzaharMenu.Combo:Boolean("W", "Use W in combo", true)
 MalzaharMenu.Combo:Boolean("E", "Use E in combo", true)
 MalzaharMenu.Combo:Boolean("R", "Use R in combo", true)
@@ -63,13 +64,18 @@ MalzaharMenu.LaneClear:Boolean("E", "Use E", true)
 MalzaharMenu.LaneClear:Boolean("RHydra", "Use RHydra", true)
 MalzaharMenu.LaneClear:Boolean("Tiamat", "Use Tiamat", true)
 
+MalzaharMenu:SubMenu("AutoFarm", "AutoFarm")
+MalzaharMenu.AutoFarm:Boolean("E", "Use E", true)
+
 MalzaharMenu:SubMenu("Harass", "Harass")
 MalzaharMenu.Harass:Boolean("Q", "Use Q", true)
 MalzaharMenu.Harass:Boolean("W", "Use W", true)
 
 MalzaharMenu:SubMenu("KillSteal", "KillSteal")
 MalzaharMenu.KillSteal:Boolean("Q", "KS w Q", true)
+MalzaharMenu.KillSteal:Slider("Qpred", "Q Hit Chance", 3,0,10,1)
 MalzaharMenu.KillSteal:Boolean("E", "KS w E", true)
+MalzaharMenu.KillSteal:Boolean("R", "KS w R", true)
 
 MalzaharMenu:SubMenu("AutoIgnite", "AutoIgnite")
 MalzaharMenu.AutoIgnite:Boolean("Ignite", "Ignite if killable", true)
@@ -90,6 +96,7 @@ OnTick(function (myHero)
         local BOTRK = GetItemSlot(myHero, 3153)
         local Cutlass = GetItemSlot(myHero, 3144)
         local Randuins = GetItemSlot(myHero, 3143)
+	local MalzaharQ = {delay = .25, range = 900, width =400, speed = math.huge}
 
 	--AUTO LEVEL UP
 	if MalzaharMenu.AutoMode.Level:Value() then
@@ -136,9 +143,10 @@ OnTick(function (myHero)
 	    end
 
             if MalzaharMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 900) then
-		     if target ~= nil then 
-                         CastSkillShot(_Q, target)
-                     end
+                local QPred = GetPrediction(target,MalzaharQ)
+                       if QPred.hitChance > (MalzaharMenu.Combo.Qpred:Value() * 0.1) then
+                                 CastSkillShot(_Q,QPred.castPos)
+                       end
             end
 
             if MalzaharMenu.Combo.Tiamat:Value() and Tiamat > 0 and Ready(Tiamat) and ValidTarget(target, 350) then
@@ -188,14 +196,21 @@ OnTick(function (myHero)
 
         for _, enemy in pairs(GetEnemyHeroes()) do
                 
-                if IsReady(_Q) and ValidTarget(enemy, 700) and MalzaharMenu.KillSteal.Q:Value() and GetHP(enemy) < getdmg("Q",enemy) then
-		         if target ~= nil then 
-                                      CastTargetSpell(target, _Q)
-		         end
-                end 
-
+                
+               if IsReady(_Q) and ValidTarget(enemy, 900) and GalioMenu.KillSteal.Q:Value() and GetHP(enemy) < getdmg("Q",enemy) then
+		         local QPred = GetPrediction(target, MalzaharQ)
+                       if QPred.hitChance > (MalzaharMenu.KillSteal.Qpred:Value() * 0.1) then
+                                 CastSkillShot(_Q,QPred.castPos)
+                       end
+                end
+			
                 if IsReady(_E) and ValidTarget(enemy, 650) and MalzaharMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
 		                      CastTargetSpell(target, _E)
+  
+                end
+			
+                if IsReady(_R) and ValidTarget(enemy, 700) and MalzaharMenu.KillSteal.R:Value() and GetHP(enemy) < getdmg("R",enemy) then
+		                      CastTargetSpell(target, _R)
   
                 end
       end
@@ -203,7 +218,7 @@ OnTick(function (myHero)
       if Mix:Mode() == "LaneClear" then
       	  for _,closeminion in pairs(minionManager.objects) do
 	        if MalzaharMenu.LaneClear.Q:Value() and Ready(_Q) and ValidTarget(closeminion, 900) then
-	        	CastTargetSpell(closeminion, _Q)
+	        	CastSkillShot(_Q, closeminion)
                 end
 
                 if MalzaharMenu.LaneClear.W:Value() and Ready(_W) and ValidTarget(closeminion, 600) then
@@ -226,7 +241,7 @@ OnTick(function (myHero)
         --AutoMode
         if MalzaharMenu.AutoMode.Q:Value() then        
           if Ready(_Q) and ValidTarget(target, 900) then
-		      CastTargetSpell(target, _Q)
+		      CastSkillShot(_Q, target)
           end
         end 
         if MalzaharMenu.AutoMode.W:Value() then        
@@ -241,9 +256,18 @@ OnTick(function (myHero)
         end
         if MalzaharMenu.AutoMode.R:Value() then        
 	  if Ready(_R) and ValidTarget(target, 700) then
-		      CastSpell(_R)
+		      CastTargetSpell(target, _R)
 	  end
         end
+		
+		--Auto on minions
+    for _, minion in pairs(minionManager.objects) do
+			
+			   	
+        if MalzaharMenu.AutoFarm.E:Value() and Ready(_E) and ValidTarget(minion, 650) and GetCurrentHP(minion) < CalcDamage(myHero,minion,EDmg,E) then
+            CastTargetSpell(minion, _E)
+       end
+    end			
                 
 	--AUTO GHOST
 	if MalzaharMenu.AutoMode.Ghost:Value() then
